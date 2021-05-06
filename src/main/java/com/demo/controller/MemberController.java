@@ -36,6 +36,7 @@ public class MemberController {
 	public String joinPost(MemberVO mvo) {
 		
 		log.info("join 진입");
+		log.info("join 진입2");
 		
 		memberservice.memberJoin(mvo);
 		

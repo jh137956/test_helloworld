@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
+		<!--  서버 배포용으로 사용
+		<property name="driverClassName" value="oracle.jdbc.OracleDriver" />
+		<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:XE" />
+		--> 
+		<!-- log4jdbc-log4j2 설정 -->
+		<!-- 개발용으로 사용.sql 상세로그출력. 성능이 떨어짐-->
+		<property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy" />
+		<property name="jdbcUrl" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:xe" />
+		 
+		<property name="username" value="stu4" />
+		<property name="password" value="1234" />
+	</bean>
+	
+	<!-- constructor-arg엘리먼트는 생성자메서드를 가리킴 -->
+	 
+	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource" destroy-method="close">
+		<constructor-arg ref="hikariConfig" />
+	</bean>
+	
+	
+	<!-- Mybatis에서는 SQLSession, SQLSessionFactory 이 2가지 핵심개체. -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<!-- mapper인터페이스(BoardMapper.java) ? xml mapper파일 또는 sql을 관리하는 인터페이스 -->
+	<!--  mapper인터페이스를 스프링 bean생성할 때 필요한 설정. -->
+	<mybatis-spring:scan base-package="com.demo.mapper"/>
+	
+	<context:component-scan base-package="com.demo.service"></context:component-scan>	
+</beans>

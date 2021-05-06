@@ -1,0 +1,27 @@
+@charset "UTF-8";
+ body {
+    margin: 30px;
+    padding: 0;
+    background-color: #ffffff;
+}
+
+.container {
+    align-items: center;
+     
+}
+
+.membership {
+    max-width: 1100px;
+    margin: 180px;
+
+}
+.joinForm {
+    margin-top: 20px;
+    width: 1000px;
+}
+
+.joinForm th, td {
+    border: 1px solid black;
+    padding: 5px;
+}
+
